@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>TestResultPattern.TestFluentResults-20241208-180425</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.2454)
+AMD Ryzen 5 5600X, 1 CPU, 12 logical and 6 physical cores
+.NET SDK 9.0.100-rc.2.24474.11
+  [Host]     : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>Method                             </th><th>N</th><th>FailurePercentage</th><th>Mean  </th><th>Error</th><th>StdDev</th><th>Gen0</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>BenchmarkQuadraticEquationUsingResult</td><td>1000</td><td>0</td><td>78,112.0 ns</td><td>778.73 ns</td><td>728.43 ns</td><td>17.5781</td><td>296000 B</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingBoolAndOut</td><td>1000</td><td>0</td><td>883.8 ns</td><td>3.87 ns</td><td>3.43 ns</td><td>-</td><td>-</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingException</td><td>1000</td><td>0</td><td>1,564.0 ns</td><td>3.81 ns</td><td>2.98 ns</td><td>-</td><td>-</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingComplexe</td><td>1000</td><td>0</td><td>12,207.5 ns</td><td>33.17 ns</td><td>25.89 ns</td><td>-</td><td>-</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingResult</td><td>1000</td><td>0.01</td><td>82,392.1 ns</td><td>740.27 ns</td><td>692.45 ns</td><td>17.5781</td><td>297040 B</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingBoolAndOut</td><td>1000</td><td>0.01</td><td>950.5 ns</td><td>2.57 ns</td><td>2.28 ns</td><td>-</td><td>-</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingException</td><td>1000</td><td>0.01</td><td>50,356.9 ns</td><td>233.02 ns</td><td>217.97 ns</td><td>0.1831</td><td>3120 B</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingComplexe</td><td>1000</td><td>0.01</td><td>12,302.4 ns</td><td>64.41 ns</td><td>57.10 ns</td><td>-</td><td>-</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingResult</td><td>1000</td><td>0.1</td><td>83,624.0 ns</td><td>408.64 ns</td><td>341.24 ns</td><td>18.0664</td><td>302960 B</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingBoolAndOut</td><td>1000</td><td>0.1</td><td>922.6 ns</td><td>3.91 ns</td><td>3.46 ns</td><td>-</td><td>-</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingException</td><td>1000</td><td>0.1</td><td>327,082.2 ns</td><td>1,168.02 ns</td><td>975.35 ns</td><td>0.9766</td><td>20880 B</td>
+</tr><tr><td>BenchmarkQuadraticEquationUsingComplexe</td><td>1000</td><td>0.1</td><td>12,265.4 ns</td><td>172.39 ns</td><td>161.26 ns</td><td>-</td><td>-</td>
+</tr></tbody></table>
+</body>
+</html>
