@@ -1,23 +1,22 @@
 ﻿using BenchmarkDotNet.Attributes;
-
 using FluentResults;
-
 using System.Numerics;
-
 
 namespace TestResultPattern;
 
-[RPlotExporter]
+
+[RPlotExporter] // for R plots
 [HtmlExporter]
 [MemoryDiagnoser]
 [KeepBenchmarkFiles]
 public class TestFluentResults
 {
-    public static bool QuadraticEquationUsingBoolAndOut(double a, double b, double c, ref double x1, ref double x2)
+    private static bool ComputeX1X2(double a, double b, double c, out double x1, out double x2)
     {
-        double delta = (b * b) - (4 * a * c);
+        var delta = (b * b) - (4 * a * c);
         if (delta < 0)
         {
+            x1 = x2 = 0;
             return false;
         }
         var x = Math.Sqrt(delta);
@@ -27,33 +26,34 @@ public class TestFluentResults
         return true;
     }
 
-    public static Result<(double,double)> QuadraticEquationUsingResult(double a, double b, double c)
-    {
-        double delta = (b * b) - (4 * a * c);
-        if (delta < 0)
-        {
-            return Result.Fail<(double,double)>("This equation has only complex solutions");
-        }
-        var x = Math.Sqrt(delta);
-        var a2 = 2 * a;
-        double x1 = (-b + x) / a2;
-        double x2 = (-b - x) / a2;
-        return Result.Ok((x1,x2));
-    }
+    /// <summary>
+    /// solve the quadratic equation and retourn the result using out parameters
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="c"></param>
+    /// <param name="x1">the first real solution, only valid if the return value is true</param>
+    /// <param name="x2">the second real solution, only valid if the return value is true</param>
+    /// <returns>true if a real solution exists else false</returns>
+    public static bool QuadraticEquationUsingBoolAndOut(double a, double b, double c, ref double x1, ref double x2) 
+        => ComputeX1X2(a, b, c, out x1, out x2);
 
-    public static (double, double) QuadraticEquationUsingException(double a, double b, double c)
-    {
-        double delta = (b * b) - (4 * a * c);
-        if (delta < 0)
-        {
-            throw new ArgumentOutOfRangeException("This equation has only complex solutions");
-        }
-        var x = Math.Sqrt(delta);
-        var a2 = 2 * a;
-        double x1 = (-b + x) / a2;
-        double x2 = (-b - x) / a2;
-        return (x1, x2);
-    }
+    /// <summary>
+    /// solve the quadratic equation and return the result using a Result object
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="c"></param>
+    /// <returns></returns>
+    public static Result<(double, double)> QuadraticEquationUsingResult(double a, double b, double c) 
+        => !ComputeX1X2(a, b, c, out var x1, out var x2)
+            ? Result.Fail<(double, double)>("This equation has only complex solutions")
+            : Result.Ok((x1, x2));
+
+    public static (double, double) QuadraticEquationUsingException(double a, double b, double c) 
+        => !ComputeX1X2(a, b, c, out var x1, out var x2)
+            ? throw new ArgumentOutOfRangeException("This equation has only complex solutions")
+            : (x1, x2);
 
     public static (Complex, Complex) QuadraticEquationUsingComplex(double a, double b, double c)
     {
@@ -63,7 +63,6 @@ public class TestFluentResults
         var x2 = (-b - x) / a2;
         return (x1,x2);
     }
-
 
     (double,double, double)[] data=[];
     [Params(1000)]
