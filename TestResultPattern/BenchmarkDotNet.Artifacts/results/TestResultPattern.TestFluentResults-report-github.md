@@ -10,15 +10,15 @@ AMD Ryzen 5 5600X, 1 CPU, 12 logical and 6 physical cores
 ```
 | Method                                    | N    | ComlexSolutionPercentage | Mean         | Error       | StdDev      | Gen0    | Allocated |
 |------------------------------------------ |----- |------------------------- |-------------:|------------:|------------:|--------:|----------:|
-| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0**                        |  **78,603.3 ns** | **1,492.77 ns** | **1,597.25 ns** | **17.5781** |  **296000 B** |
-| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0                        |     904.2 ns |    18.00 ns |    25.82 ns |       - |         - |
-| BenchmarkQuadraticEquationUsingException  | 1000 | 0                        |   1,584.2 ns |    16.17 ns |    15.12 ns |       - |         - |
-| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0                        |  12,145.9 ns |    35.29 ns |    29.47 ns |       - |         - |
-| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0.01**                     |  **85,330.9 ns** | **1,631.41 ns** | **1,602.26 ns** | **17.5781** |  **297040 B** |
-| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0.01                     |     957.5 ns |     8.07 ns |     7.15 ns |       - |         - |
-| BenchmarkQuadraticEquationUsingException  | 1000 | 0.01                     |  51,227.8 ns |   783.93 ns |   733.29 ns |  0.1831 |    3120 B |
-| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0.01                     |  12,376.9 ns |   152.80 ns |   142.92 ns |       - |         - |
-| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0.1**                      |  **89,740.4 ns** | **1,112.76 ns** |   **986.44 ns** | **18.0664** |  **302960 B** |
-| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0.1                      |     926.9 ns |     9.48 ns |     8.86 ns |       - |         - |
-| BenchmarkQuadraticEquationUsingException  | 1000 | 0.1                      | 324,375.0 ns |   729.28 ns |   646.49 ns |  0.9766 |   20880 B |
-| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0.1                      |  12,496.4 ns |   241.85 ns |   226.23 ns |       - |         - |
+| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0**                        |  **75,155.8 ns** | **1,266.28 ns** | **1,184.48 ns** | **17.5781** |  **296000 B** |
+| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0                        |     910.3 ns |    11.60 ns |    10.85 ns |       - |         - |
+| BenchmarkQuadraticEquationUsingException  | 1000 | 0                        |   1,559.0 ns |    27.92 ns |    27.42 ns |       - |         - |
+| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0                        |  12,405.0 ns |   113.49 ns |   100.60 ns |       - |         - |
+| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0.01**                     |  **82,634.6 ns** | **1,609.17 ns** | **2,035.09 ns** | **17.5781** |  **297040 B** |
+| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0.01                     |     959.8 ns |     6.14 ns |     5.74 ns |       - |         - |
+| BenchmarkQuadraticEquationUsingException  | 1000 | 0.01                     |  52,933.4 ns |   430.92 ns |   359.84 ns |  0.1831 |    3120 B |
+| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0.01                     |  12,437.0 ns |    58.80 ns |    49.10 ns |       - |         - |
+| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0.1**                      |  **85,967.3 ns** | **1,586.27 ns** | **1,324.61 ns** | **18.0664** |  **302960 B** |
+| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0.1                      |     939.8 ns |     9.54 ns |     8.92 ns |       - |         - |
+| BenchmarkQuadraticEquationUsingException  | 1000 | 0.1                      | 338,560.8 ns | 2,854.54 ns | 2,670.14 ns |  0.9766 |   20880 B |
+| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0.1                      |  12,316.4 ns |    89.90 ns |    70.19 ns |       - |         - |
