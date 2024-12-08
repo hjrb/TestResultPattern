@@ -1,13 +1,20 @@
-This repo demonstrates the effects to performance when using the Results pattern
-It users C# as programming language.
-It references https://github.com/altmann/FluentResults for an implementation of the Results pattern.
-Benmarks are implemented using BenmarkDotNet https://github.com/dotnet/BenchmarkDotNet
-It uses VS 2022 as development evironment. But one can easily also use the dotnet cli.
+This repo demonstrates the effects to performance when using the Results pattern.
+
+- It users C# as programming language.
+- It references https://github.com/altmann/FluentResults for an implementation of the Results pattern.
+- Benmarks are implemented using BenmarkDotNet https://github.com/dotnet/BenchmarkDotNet
+- It uses VS 2022 as development evironment. But one can easily also use the dotnet cli and any test editor.
+  
 The task is to solve the quadratic equation 0 = a*x*x + b*x + c
-With d=b*b - 4*a*c one gets two possible soultions x1=(-b+sqrt(d))/2a, x2=(-b-sqrt(d))/2a, assuming a is not zero.
+
+With ```d=b*b - 4*a*c``` one gets two possible soultions ```x1=(-b+sqrt(d))/2a and x2=(-b-sqrt(d))/2a```, assuming a is not zero.
+
 The genral soultion requires Complex number for the case that d<0.
+
 Very often only then non complex solutions are of interest. So one would first compute d and check if it is less then zero.
+
 In that case there are no real solutions.
+
 This could be handled in the following ways:
 1.) BenchmarkQuadraticEquationUsingBoolAndOut: Return a bool that indicates if real solutions exists and return the two solutions using ref parameters
 2.) BenchmarkQuadraticEquationUsingResult: Return a Results object which is either an instance of Failure (with an optional message) or an instance of Result<(double, double>). That requires memory allocation for the wrapper class intance!
