@@ -17,12 +17,12 @@ In that case there are no real solutions.
 
 This could be handled in the following ways:
 1.) BenchmarkQuadraticEquationUsingBoolAndOut: Return a bool that indicates if real solutions exists and return the two solutions using ref parameters
-2.) BenchmarkQuadraticEquationUsingResult: Return a Results object which is either an instance of Failure (with an optional message) or an instance of Result<(double, double>). That requires memory allocation for the wrapper class intance!
+2.) BenchmarkQuadraticEquationUsingResult: Return a Results object which is either an instance of Error (with an optional message) or an instance of Result<(double, double>).
 3.) BenchmarkQuadraticEquationUsingException: Return a tuple (double, double) if d is >=0 or throw an argument exception.
 4.) BenchmarkQuadraticEquationUsingComplex: Return a tuple (Complex, Complex) which will always work
 5.) BenchmarkQuadraticEquationOneOf: Return a tuple (double,double) or (Complex, Complex) depind if real solutions exists. This saves computing the complex square root
 
-The test code allows to define N (the number of test) cases and the parameter ComlexSolutionPercentage. ComlexSolutionPercentage the upper limit how man test inputs will yield a complex solution.
+The test code allows to define N (the number of test) cases and the parameter ComlexSolutionPercentage. ComlexSolutionPercentage is the upper limit how man test inputs will yield a complex solution.
 
 Here are some test results:
 ```
