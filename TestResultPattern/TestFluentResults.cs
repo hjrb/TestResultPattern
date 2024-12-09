@@ -89,6 +89,28 @@ public class TestFluentResults
         return (x1,x2);
     }
 
+    public static OneOf<(double, double), (Complex, Complex)> QuadraticEquationUsingOneOf(double a, double b, double c)
+    {
+        var d = (b * b) - (4 * a * c);
+        if (d < 0)
+        {
+            var x = Complex.Sqrt(d);
+            var a2 = 2 * a;
+            var x1 = (-b + x) / a2;
+            var x2 = (-b - x) / a2;
+            return (x1, x2);
+        }
+        else
+        {
+            var x = Math.Sqrt(d);
+            var a2 = 2 * a;
+            var x1 = (-b + x) / a2;
+            var x2 = (-b - x) / a2;
+            return (x1, x2);
+        }
+    }
+
+
     // the data for the benchmarks
     private (double,double, double)[] data=[];
 
@@ -190,4 +212,18 @@ public class TestFluentResults
         }
     }
 
+    [Benchmark]
+    public void BenchmarkQuadraticEquationUsingOneOf()
+    {
+        for (int i = 0; i < N; i++)
+        {
+            var input = data[i];
+            var result = QuadraticEquationUsingOneOf(input.Item1, input.Item2, input.Item3);
+            var avg=result.Match(
+                realResul => (realResul.Item1 + realResul.Item2) / 2,
+                complexResult => (complexResult.Item1 + complexResult.Item2) / 2
+            );
+            
+        }
+    }
 }
