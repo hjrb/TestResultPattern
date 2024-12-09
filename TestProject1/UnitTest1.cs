@@ -5,33 +5,45 @@ namespace TestProject1;
 [TestClass]
 public class UnitTest1
 {
-    [TestMethod]
-    public void TestMethod1()
+    TestFluentResults testRunnerInstance=new TestFluentResults();
+
+    public void Setup(double complexSolutionPercentage)
     {
-        var a = new TestFluentResults();
-        a.N = 1000;
-        a.ComlexSolutionPercentage = 0.0;
-        a.Setup();
-        var expected=a.ComlexSolutionPercentage*a.N;
-        a.BenchmarkQuadraticEquationUsingResult();
-        Assert.IsTrue(a.failCounterResult<=expected);
-        a.BenchmarkQuadraticEquationUsingException();
-        Assert.IsTrue(a.failCounterException <= expected);
-        a.BenchmarkQuadraticEquationUsingBoolAndOut();
-        Assert.IsTrue(a.failCounterBoolAndOut <= expected);
-
-        Assert.IsTrue(a.failCounterResult == a.failCounterException && a.failCounterException==a.failCounterBoolAndOut);
-
-        a.ComlexSolutionPercentage = 0.1;
-        a.Setup();
-        expected = a.ComlexSolutionPercentage * a.N;
-        a.BenchmarkQuadraticEquationUsingResult();
-        Assert.IsTrue(a.failCounterResult <= expected);
-        a.BenchmarkQuadraticEquationUsingException();
-        Assert.IsTrue(a.failCounterException <= expected);
-        a.BenchmarkQuadraticEquationUsingBoolAndOut();
-        Assert.IsTrue(a.failCounterBoolAndOut <= expected);
-
-        Assert.IsTrue(a.failCounterResult == a.failCounterException && a.failCounterException == a.failCounterBoolAndOut);
+        testRunnerInstance = new ();
+        testRunnerInstance.N = 1000;
+        testRunnerInstance.ComplexSolutionPercentage = complexSolutionPercentage;
+        var complexRatio=testRunnerInstance.Setup();
+        Console.WriteLine($"Complex ratio: {complexRatio}, Desired ratio: {complexSolutionPercentage}");
     }
+    
+    [TestMethod]
+    public void TestMethodNoComplex()
+    {
+        Setup(0.0);
+        var expected=testRunnerInstance.ComplexSolutionPercentage*testRunnerInstance.N;
+        testRunnerInstance.BenchmarkQuadraticEquationUsingResult();
+        Assert.IsTrue(testRunnerInstance.failCounterResult<=expected);
+        testRunnerInstance.BenchmarkQuadraticEquationUsingException();
+        Assert.IsTrue(testRunnerInstance.failCounterException <= expected);
+        testRunnerInstance.BenchmarkQuadraticEquationUsingBoolAndOut();
+        Assert.IsTrue(testRunnerInstance.failCounterBoolAndOut <= expected);
+
+        Assert.IsTrue(testRunnerInstance.failCounterResult == testRunnerInstance.failCounterException && testRunnerInstance.failCounterException==testRunnerInstance.failCounterBoolAndOut);
+    }
+
+    [TestMethod]
+    public void TestMethodTenPercent()
+    {
+        Setup(0.1);
+        var expected = testRunnerInstance.ComplexSolutionPercentage * testRunnerInstance.N;
+        testRunnerInstance.BenchmarkQuadraticEquationUsingResult();
+        Assert.IsTrue(testRunnerInstance.failCounterResult <= expected);
+        testRunnerInstance.BenchmarkQuadraticEquationUsingException();
+        Assert.IsTrue(testRunnerInstance.failCounterException <= expected);
+        testRunnerInstance.BenchmarkQuadraticEquationUsingBoolAndOut();
+        Assert.IsTrue(testRunnerInstance.failCounterBoolAndOut <= expected);
+        Assert.IsTrue(testRunnerInstance.failCounterResult == testRunnerInstance.failCounterException && testRunnerInstance.failCounterException == testRunnerInstance.failCounterBoolAndOut);
+ 
+    } 
+    
 }

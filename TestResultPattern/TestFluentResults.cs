@@ -28,33 +28,54 @@ public class TestFluentResults
     /// the maximum percentage of equations with complex solutions
     /// </summary>
     [Params(0.0, 0.01, 0.1)]
-    public double ComlexSolutionPercentage;
+    public double ComplexSolutionPercentage;
 
     [GlobalSetup]
-    public void Setup()
+    public double Setup()
     {
         // produce random data using a fixed seed
         var random = new Random(42);
         data = new (double,double,double)[N];
+        double nonComplextCount = 0;
+        double complexCount = 0;
         for (int i = 0; i < N; i++)
         {
             // make sure that the equation is solvable
-            var makeSolveable = random.NextDouble() > ComlexSolutionPercentage;
-            double a, b, c, delta;
+            //var makeSolveable = random.NextDouble() > ComlexSolutionPercentage;
+            double a, b, c, discriminent;
             do
             {
-                a = random.NextDouble();
-                b = random.NextDouble();
-                c = random.NextDouble();
-                delta = (b * b) - (4 * a * c);
-            } while (makeSolveable && delta < 0);
+                (a,b,c) = (random.NextDouble(), random.NextDouble(),random.NextDouble());
+                if (!QuadraticEquation.HandleNonQuadraticCases(a,b,c).Match(
+                    doubleValue => true,
+                    none => false,
+                    all => false,
+                    _ => true
+                )) continue;  
+                discriminent = QuadraticEquation.Discriminent(a,b,c);
+
+                // is complex
+                if (discriminent<0) {
+                    // need more complex solutions?
+                    if (complexCount/(i+1)<ComplexSolutionPercentage) {
+                        complexCount++; // add it
+                        break;
+                    }
+                } else {
+                    // need more real solutions?
+                    if (complexCount/(i+1)>=ComplexSolutionPercentage) {
+                        nonComplextCount++; // add it
+                        break;
+                    }
+                }
+            } while (true);
             data[i] = (a, b, c);
         }
+        return complexCount/N;
     }
 
     public int failCounterResult = 0;
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingResult()
     {
         for (int i = 0; i < N; i++)
@@ -70,7 +91,6 @@ public class TestFluentResults
 
     public int failCounterBoolAndOut = 0;
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingBoolAndOut()
     {
         for (int i = 0; i < N; i++)
@@ -89,7 +109,6 @@ public class TestFluentResults
 
     public int failCounterException = 0;
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingException()
     {
         for (int i = 0; i < N; i++)
@@ -108,7 +127,6 @@ public class TestFluentResults
     }
 
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingComplex()
     {
         for (int i = 0; i < N; i++)
@@ -120,7 +138,6 @@ public class TestFluentResults
     }
 
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingOneOf()
     {
         for (int i = 0; i < N; i++)

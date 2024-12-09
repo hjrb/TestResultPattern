@@ -5,6 +5,17 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace TestResultPattern;
+
+public static class DoubleExtensions
+{
+    public static double EpsForIsApproximatelyZero = double.Epsilon;
+    
+    public static bool IsApproximatelyZero(this double value) 
+        => Math.Abs(value) < EpsForIsApproximatelyZero;
+    public static bool IsApproximatelyZero(this double value, double epsilon) 
+        => Math.Abs(value) < epsilon;
+}
+
 public class QuadraticEquation
 {
     /// <summary>
@@ -17,8 +28,8 @@ public class QuadraticEquation
     /// <param name="x2"></param>
     /// <returns></returns>
     private static bool ComputeX1X2(double a, double b, double c, out double x1, out double x2)
-    {
-        var delta = Delta(a, b, c);
+    {   
+        var delta = Discriminent(a, b, c);
         if (delta < 0)
         {
             x1 = x2 = 0;
@@ -31,10 +42,42 @@ public class QuadraticEquation
         return true;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static double Delta(double a, double b, double c) => (b * b) - (4 * a * c);
+    /// <summary>
+    /// handle the cases a=0 and b=0 or b!=0 and c=0 or c!=0
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="c"></param>
+    /// <returns>
+    /// if a!=0 returns False
+    /// else
+    ///     if b==0 returns All if c==0 else None
+    /// else
+    ///    returns -c/b
+    /// </returns>
+    public static OneOf<double, None, All, False> HandleNonQuadraticCases(double a, double b, double c)
+    {
+        if (!a.IsApproximatelyZero())
+        {
+            return new False();
+        }
+        if (b.IsApproximatelyZero())
+        {
+            return c.IsApproximatelyZero() ? new All() : new None();
+        }
+        return -c / b;
+    }
 
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+    /// <summary>
+    /// compute the discriminant of a quadratic equation
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="c"></param>
+    /// <returns>b*b - 4*a*c</returns> 
+    /// <summary>
+    public static double Discriminent(double a, double b, double c) => (b * b) - (4 * a * c);
+
     /// <summary>
     /// solve the quadratic equation and retourn the result using out parameters
     /// </summary>
@@ -81,7 +124,7 @@ public class QuadraticEquation
     /// <returns>a tuple with the results</returns>
     public static (Complex, Complex) SolveUsingComplex(double a, double b, double c)
     {
-        var x = Complex.Sqrt(Delta(a,b,c));
+        var x = Complex.Sqrt(Discriminent(a,b,c));
         var a2 = 2 * a;
         return ((-b + x) / a2, (-b - x) / a2);
     }
@@ -96,7 +139,7 @@ public class QuadraticEquation
     public static OneOf<(double, double), (Complex, Complex)> Solve(double a, double b, double c)
     {
         var a2 = 2 * a;
-        var d = Delta(a,b,c);
+        var d = Discriminent(a,b,c);
         if (d < 0)
         {
             var x = Complex.Sqrt(d);
