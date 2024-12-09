@@ -36,8 +36,8 @@ public class TestFluentResults
         // produce random data using a fixed seed
         var random = new Random(42);
         data = new (double,double,double)[N];
-        double nonComplextCount = 0;
-        double complexCount = 0;
+        int complexCount = 0, excpectedComplexCount = (int)(N * ComplexSolutionPercentage);
+        int nonComplextCount = 0, expecteNonComplexCount = N - excpectedComplexCount;
         for (int i = 0; i < N; i++)
         {
             // make sure that the equation is solvable
@@ -57,13 +57,13 @@ public class TestFluentResults
                 // is complex
                 if (discriminent<0) {
                     // need more complex solutions?
-                    if (complexCount/(i+1)<ComplexSolutionPercentage) {
+                    if (complexCount<excpectedComplexCount) {
                         complexCount++; // add it
                         break;
                     }
                 } else {
                     // need more real solutions?
-                    if (complexCount/(i+1)>=ComplexSolutionPercentage) {
+                    if (nonComplextCount<expecteNonComplexCount) {
                         nonComplextCount++; // add it
                         break;
                     }
@@ -71,7 +71,7 @@ public class TestFluentResults
             } while (true);
             data[i] = (a, b, c);
         }
-        return complexCount/N;
+        return ((double)complexCount)/N;
     }
 
     public int failCounterResult = 0;
