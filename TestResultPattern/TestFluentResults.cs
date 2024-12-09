@@ -54,7 +54,7 @@ public class TestFluentResults
 
     public int failCounterResult = 0;
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoInlining)]
+    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingResult()
     {
         for (int i = 0; i < N; i++)
@@ -70,7 +70,7 @@ public class TestFluentResults
 
     public int failCounterBoolAndOut = 0;
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoInlining)]
+    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingBoolAndOut()
     {
         for (int i = 0; i < N; i++)
@@ -89,7 +89,7 @@ public class TestFluentResults
 
     public int failCounterException = 0;
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoInlining)]
+    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingException()
     {
         for (int i = 0; i < N; i++)
@@ -108,7 +108,7 @@ public class TestFluentResults
     }
 
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoInlining)]
+    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingComplex()
     {
         for (int i = 0; i < N; i++)
@@ -120,7 +120,7 @@ public class TestFluentResults
     }
 
     [Benchmark]
-    [MethodImpl(MethodImplOptions.NoInlining)]
+    [MethodImpl(MethodImplOptions.NoOptimization)]
     public void BenchmarkQuadraticEquationUsingOneOf()
     {
         for (int i = 0; i < N; i++)

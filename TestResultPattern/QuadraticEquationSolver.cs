@@ -2,6 +2,7 @@ using OneOf;
 using OneOf.Types;
 
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace TestResultPattern;
 public class QuadraticEquation
@@ -17,7 +18,7 @@ public class QuadraticEquation
     /// <returns></returns>
     private static bool ComputeX1X2(double a, double b, double c, out double x1, out double x2)
     {
-        var delta = (b * b) - (4 * a * c);
+        var delta = Delta(a, b, c);
         if (delta < 0)
         {
             x1 = x2 = 0;
@@ -30,6 +31,10 @@ public class QuadraticEquation
         return true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static double Delta(double a, double b, double c) => (b * b) - (4 * a * c);
+
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     /// <summary>
     /// solve the quadratic equation and retourn the result using out parameters
     /// </summary>
@@ -39,7 +44,7 @@ public class QuadraticEquation
     /// <param name="x1">the first real solution, only valid if the return value is true</param>
     /// <param name="x2">the second real solution, only valid if the return value is true</param>
     /// <returns>true if a real solution exists else false</returns>
-    public static bool SolveUsingBoolAndOut(double a, double b, double c, out double x1, out double x2) 
+    public static bool SolveUsingBoolAndOut(double a, double b, double c, out double x1, out double x2)
         => ComputeX1X2(a, b, c, out x1, out x2);
 
     /// <summary>
@@ -49,7 +54,7 @@ public class QuadraticEquation
     /// <param name="b"></param>
     /// <param name="c"></param>
     /// <returns>a Result object</returns>
-    public static OneOf<(double, double), Error<string>> SolveRealUsingResult(double a, double b, double c) 
+    public static OneOf<(double, double), Error<string>> SolveRealUsingResult(double a, double b, double c)
         => !ComputeX1X2(a, b, c, out var x1, out var x2)
             ? new Error<string>("This equation has only complex solutions")
             : (x1, x2);
@@ -62,7 +67,7 @@ public class QuadraticEquation
     /// <param name="c"></param>
     /// <returns>a tuple with the results</returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static (double, double) SolveRealUsingException(double a, double b, double c) 
+    public static (double, double) SolveRealUsingException(double a, double b, double c)
         => !ComputeX1X2(a, b, c, out var x1, out var x2)
             ? throw new ArgumentOutOfRangeException("This equation has only complex solutions")
             : (x1, x2);
@@ -76,11 +81,10 @@ public class QuadraticEquation
     /// <returns>a tuple with the results</returns>
     public static (Complex, Complex) SolveUsingComplex(double a, double b, double c)
     {
-        var x = Complex.Sqrt((b * b) - (4 * a * c));        
+        var x = Complex.Sqrt(Delta(a,b,c));
         var a2 = 2 * a;
         return ((-b + x) / a2, (-b - x) / a2);
     }
-
 
     /// <summary>
     /// depending on the value of the discriminant return the real or complex solutions
@@ -92,7 +96,7 @@ public class QuadraticEquation
     public static OneOf<(double, double), (Complex, Complex)> Solve(double a, double b, double c)
     {
         var a2 = 2 * a;
-        var d = (b * b) - (4 * a * c);
+        var d = Delta(a,b,c);
         if (d < 0)
         {
             var x = Complex.Sqrt(d);
@@ -104,7 +108,4 @@ public class QuadraticEquation
             return ((-b + x) / a2, (-b - x) / a2);
         }
     }
-
-
-    
 }
