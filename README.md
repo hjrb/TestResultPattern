@@ -1,7 +1,7 @@
 This repo demonstrates the effects to performance when using the Results pattern.
 
 - It users C# as programming language.
-- It references https://github.com/altmann/FluentResults for an implementation of the Results pattern.
+- It references [https://github.com/altmann/FluentResults](https://github.com/mcintyre321/OneOf/) for an implementation of the Results pattern.
 - Benmarks are implemented using BenmarkDotNet https://github.com/dotnet/BenchmarkDotNet
 - It uses VS 2022 as development evironment. But one can easily also use the dotnet cli and any test editor.
   
@@ -20,6 +20,7 @@ This could be handled in the following ways:
 2.) BenchmarkQuadraticEquationUsingResult: Return a Results object which is either an instance of Failure (with an optional message) or an instance of Result<(double, double>). That requires memory allocation for the wrapper class intance!
 3.) BenchmarkQuadraticEquationUsingException: Return a tuple (double, double) if d is >=0 or throw an argument exception.
 4.) BenchmarkQuadraticEquationUsingComplex: Return a tuple (Complex, Complex) which will always work
+5.) BenchmarkQuadraticEquationOneOf: Return a tuple (double,double) or (Complex, Complex) depind if real solutions exists. This saves computing the complex square root
 
 The test code allows to define N (the number of test) cases and the parameter ComlexSolutionPercentage. ComlexSolutionPercentage the upper limit how man test inputs will yield a complex solution.
 
