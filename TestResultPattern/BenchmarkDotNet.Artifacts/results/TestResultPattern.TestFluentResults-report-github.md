@@ -1,7 +1,7 @@
 ```
 
-BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.2454)
-AMD Ryzen 5 5600X, 1 CPU, 12 logical and 6 physical cores
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.22631.4460/23H2/2023Update/SunValley3)
+12th Gen Intel Core i9-12900K, 1 CPU, 24 logical and 16 physical cores
 .NET SDK 9.0.101
   [Host]     : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
   DefaultJob : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
@@ -10,18 +10,18 @@ AMD Ryzen 5 5600X, 1 CPU, 12 logical and 6 physical cores
 ```
 | Method                                    | N    | ComlexSolutionPercentage | Mean         | Error       | StdDev      | Gen0   | Allocated |
 |------------------------------------------ |----- |------------------------- |-------------:|------------:|------------:|-------:|----------:|
-| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0**                        |   **9,489.0 ns** |   **144.47 ns** |   **128.07 ns** | **3.8147** |   **64000 B** |
-| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0                        |     891.5 ns |     6.77 ns |     6.00 ns |      - |         - |
-| BenchmarkQuadraticEquationUsingException  | 1000 | 0                        |   1,559.3 ns |    12.27 ns |    10.25 ns |      - |         - |
-| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0                        |  12,292.9 ns |    40.04 ns |    33.43 ns |      - |         - |
-| BenchmarkQuadraticEquationUsingOneOf      | 1000 | 0                        |  10,807.3 ns |    32.09 ns |    28.45 ns |      - |         - |
-| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0.01**                     |   **6,513.8 ns** |   **126.22 ns** |   **111.89 ns** | **3.8223** |   **64000 B** |
-| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0.01                     |     952.3 ns |     2.65 ns |     2.48 ns |      - |         - |
-| BenchmarkQuadraticEquationUsingException  | 1000 | 0.01                     |  51,420.2 ns |   139.25 ns |   123.44 ns | 0.1831 |    3120 B |
-| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0.01                     |  12,355.5 ns |    76.93 ns |    68.20 ns |      - |         - |
-| BenchmarkQuadraticEquationUsingOneOf      | 1000 | 0.01                     |   4,930.5 ns |    29.97 ns |    26.56 ns |      - |         - |
-| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0.1**                      |   **6,744.9 ns** |   **134.57 ns** |   **188.64 ns** | **3.8223** |   **64000 B** |
-| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0.1                      |     920.1 ns |     5.79 ns |     5.13 ns |      - |         - |
-| BenchmarkQuadraticEquationUsingException  | 1000 | 0.1                      | 344,907.3 ns | 6,726.91 ns | 8,980.23 ns | 0.9766 |   20880 B |
-| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0.1                      |  12,602.2 ns |    95.78 ns |    79.98 ns |      - |         - |
-| BenchmarkQuadraticEquationUsingOneOf      | 1000 | 0.1                      |   6,177.2 ns |    38.82 ns |    32.41 ns |      - |         - |
+| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0**                        |  **10,220.0 ns** |   **201.31 ns** |   **341.84 ns** | **4.0741** |   **64000 B** |
+| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0                        |     621.4 ns |     2.75 ns |     2.30 ns |      - |         - |
+| BenchmarkQuadraticEquationUsingException  | 1000 | 0                        |     905.4 ns |     3.18 ns |     2.82 ns |      - |         - |
+| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0                        |   6,552.8 ns |    20.11 ns |    18.81 ns |      - |         - |
+| BenchmarkQuadraticEquationUsingOneOf      | 1000 | 0                        |   9,246.9 ns |    53.58 ns |    50.11 ns |      - |         - |
+| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0.01**                     |   **4,904.7 ns** |    **60.31 ns** |    **50.36 ns** | **4.0741** |   **64000 B** |
+| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0.01                     |     650.0 ns |     2.82 ns |     2.50 ns |      - |         - |
+| BenchmarkQuadraticEquationUsingException  | 1000 | 0.01                     |  34,951.7 ns |   236.65 ns |   221.37 ns | 0.1831 |    3120 B |
+| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0.01                     |   6,663.1 ns |   101.59 ns |   108.70 ns |      - |         - |
+| BenchmarkQuadraticEquationUsingOneOf      | 1000 | 0.01                     |   2,968.7 ns |    15.21 ns |    14.23 ns |      - |         - |
+| **BenchmarkQuadraticEquationUsingResult**     | **1000** | **0.1**                      |   **5,388.7 ns** |   **107.14 ns** |   **206.43 ns** | **4.0741** |   **64000 B** |
+| BenchmarkQuadraticEquationUsingBoolAndOut | 1000 | 0.1                      |     631.8 ns |     8.30 ns |     7.77 ns |      - |         - |
+| BenchmarkQuadraticEquationUsingException  | 1000 | 0.1                      | 230,297.2 ns | 2,467.18 ns | 2,307.80 ns | 1.2207 |   20880 B |
+| BenchmarkQuadraticEquationUsingComplex    | 1000 | 0.1                      |   7,006.7 ns |    44.07 ns |    41.22 ns |      - |         - |
+| BenchmarkQuadraticEquationUsingOneOf      | 1000 | 0.1                      |   3,522.3 ns |    14.07 ns |    13.16 ns |      - |         - |

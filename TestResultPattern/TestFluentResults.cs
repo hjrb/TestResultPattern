@@ -3,6 +3,7 @@ using OneOf;
 using OneOf.Types;
 
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace TestResultPattern;
 
@@ -12,104 +13,6 @@ namespace TestResultPattern;
 [KeepBenchmarkFiles]
 public class TestFluentResults
 {
-    /// <summary>
-    /// internal helper function to compute the real solutions of a quadratic equation
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <param name="c"></param>
-    /// <param name="x1"></param>
-    /// <param name="x2"></param>
-    /// <returns></returns>
-    private static bool ComputeX1X2(double a, double b, double c, out double x1, out double x2)
-    {
-        var delta = (b * b) - (4 * a * c);
-        if (delta < 0)
-        {
-            x1 = x2 = 0;
-            return false;
-        }
-        var x = Math.Sqrt(delta);
-        var a2 = 2 * a;
-        x1 = (-b + x) / a2;
-        x2 = (-b - x) / a2;
-        return true;
-    }
-
-    /// <summary>
-    /// solve the quadratic equation and retourn the result using out parameters
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <param name="c"></param>
-    /// <param name="x1">the first real solution, only valid if the return value is true</param>
-    /// <param name="x2">the second real solution, only valid if the return value is true</param>
-    /// <returns>true if a real solution exists else false</returns>
-    public static bool QuadraticEquationUsingBoolAndOut(double a, double b, double c, out double x1, out double x2) 
-        => ComputeX1X2(a, b, c, out x1, out x2);
-
-    /// <summary>
-    /// solve the quadratic equation and return the result using a Result object
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <param name="c"></param>
-    /// <returns>a Result object</returns>
-    public static OneOf<(double, double), Error<string>> QuadraticEquationUsingResult(double a, double b, double c) 
-        => !ComputeX1X2(a, b, c, out var x1, out var x2)
-            ? new Error<string>("This equation has only complex solutions")
-            : (x1, x2);
-
-    /// <summary>
-    /// solve the quadratic equation and return the result as tuple. in the case there a no real solutions throw and ArgumentOutOfRangeException
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <param name="c"></param>
-    /// <returns>a tuple with the results</returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static (double, double) QuadraticEquationUsingException(double a, double b, double c) 
-        => !ComputeX1X2(a, b, c, out var x1, out var x2)
-            ? throw new ArgumentOutOfRangeException("This equation has only complex solutions")
-            : (x1, x2);
-
-    /// <summary>
-    /// compute the result of a quadratic equation using complex numbers
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <param name="c"></param>
-    /// <returns>a tuple with the results</returns>
-    public static (Complex, Complex) QuadraticEquationUsingComplex(double a, double b, double c)
-    {
-        var x = Complex.Sqrt((b * b) - (4 * a * c));        
-        var a2 = 2 * a;
-        return ((-b + x) / a2, (-b - x) / a2);
-    }
-
-
-    /// <summary>
-    /// depending on the value of the discriminant return the real or complex solutions
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <param name="c"></param>
-    /// <returns></returns>
-    public static OneOf<(double, double), (Complex, Complex)> QuadraticEquationUsingOneOf(double a, double b, double c)
-    {
-        var a2 = 2 * a;
-        var d = (b * b) - (4 * a * c);
-        if (d < 0)
-        {
-            var x = Complex.Sqrt(d);
-            return ((-b + x) / a2, (-b - x) / a2);
-        }
-        else
-        {
-            var x = Math.Sqrt(d);
-            return ((-b + x) / a2, (-b - x) / a2);
-        }
-    }
 
 
     // the data for the benchmarks
@@ -151,12 +54,13 @@ public class TestFluentResults
 
     public int failCounterResult = 0;
     [Benchmark]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public void BenchmarkQuadraticEquationUsingResult()
     {
         for (int i = 0; i < N; i++)
         {
             var input=data[i];
-            var result = QuadraticEquationUsingResult(input.Item1, input.Item2, input.Item3);
+            var result = QuadraticEquation.SolveRealUsingResult(input.Item1, input.Item2, input.Item3);
             result.Switch(
                 success => { var avg = (success.Item1 + success.Item2) / 2; },
                 error => { failCounterResult++; }
@@ -166,12 +70,13 @@ public class TestFluentResults
 
     public int failCounterBoolAndOut = 0;
     [Benchmark]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public void BenchmarkQuadraticEquationUsingBoolAndOut()
     {
         for (int i = 0; i < N; i++)
         {
             var input = data[i];
-            var result = QuadraticEquationUsingBoolAndOut(input.Item1, input.Item2, input.Item3,out var x1, out var x2);
+            var result = QuadraticEquation.SolveUsingBoolAndOut(input.Item1, input.Item2, input.Item3,out var x1, out var x2);
             if (!result)
             {
                 failCounterBoolAndOut++; // make sure the compiler does not optimize this away
@@ -184,6 +89,7 @@ public class TestFluentResults
 
     public int failCounterException = 0;
     [Benchmark]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public void BenchmarkQuadraticEquationUsingException()
     {
         for (int i = 0; i < N; i++)
@@ -191,7 +97,7 @@ public class TestFluentResults
             var input = data[i];
             try
             {
-                var result=QuadraticEquationUsingException(input.Item1, input.Item2, input.Item3);
+                var result=QuadraticEquation.SolveRealUsingException(input.Item1, input.Item2, input.Item3);
                 var avg = (result.Item1 + result.Item2) / 2; // make sure the compiler does not optimize this away
             }
             catch (ArgumentOutOfRangeException x)
@@ -202,26 +108,28 @@ public class TestFluentResults
     }
 
     [Benchmark]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public void BenchmarkQuadraticEquationUsingComplex()
     {
         for (int i = 0; i < N; i++)
         {
             var input = data[i];
-            var result = QuadraticEquationUsingComplex(input.Item1, input.Item2, input.Item3);
-            var avg = (result.Item1 + result.Item2) / 2;
+            var result = QuadraticEquation.SolveUsingComplex(input.Item1, input.Item2, input.Item3);
+            var avg = (result.Item1.Real + result.Item2.Real) / 2;
         }
     }
 
     [Benchmark]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public void BenchmarkQuadraticEquationUsingOneOf()
     {
         for (int i = 0; i < N; i++)
         {
             var input = data[i];
-            var result = QuadraticEquationUsingOneOf(input.Item1, input.Item2, input.Item3);
+            var result = QuadraticEquation.Solve(input.Item1, input.Item2, input.Item3);
             var avg=result.Match(
                 realResul => (realResul.Item1 + realResul.Item2) / 2,
-                complexResult => (complexResult.Item1 + complexResult.Item2) / 2
+                complexResult => (complexResult.Item1.Real + complexResult.Item2.Real) / 2
             );
             
         }
