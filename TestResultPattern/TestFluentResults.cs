@@ -1,5 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
-using FluentResults;
+using OneOf;
+using OneOf.Types;
+
 using System.Numerics;
 
 namespace TestResultPattern;
@@ -53,10 +55,10 @@ public class TestFluentResults
     /// <param name="b"></param>
     /// <param name="c"></param>
     /// <returns>a Result object</returns>
-    public static Result<(double, double)> QuadraticEquationUsingResult(double a, double b, double c) 
+    public static OneOf<(double, double), Error<string>> QuadraticEquationUsingResult(double a, double b, double c) 
         => !ComputeX1X2(a, b, c, out var x1, out var x2)
-            ? Result.Fail<(double, double)>("This equation has only complex solutions")
-            : Result.Ok((x1, x2));
+            ? new Error<string>("This equation has only complex solutions")
+            : (x1, x2);
 
     /// <summary>
     /// solve the quadratic equation and return the result as tuple. in the case there a no real solutions throw and ArgumentOutOfRangeException
@@ -132,12 +134,10 @@ public class TestFluentResults
         {
             var input=data[i];
             var result = QuadraticEquationUsingResult(input.Item1, input.Item2, input.Item3);
-            if (result.IsFailed)
-            {
-                failCounterResult++;
-                continue;
-            }
-            var avg = (result.Value.Item1 + result.Value.Item2) / 2;
+            result.Switch(
+                success => { var avg = (success.Item1 + success.Item2) / 2; },
+                error => { failCounterResult++; }
+            );
         }
     }
 
