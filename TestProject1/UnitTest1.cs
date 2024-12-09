@@ -12,8 +12,8 @@ public class UnitTest1
 		testRunnerInstance = new();
 		testRunnerInstance.N = 1000;
 		testRunnerInstance.ComplexSolutionPercentage = complexSolutionPercentage;
-		var complexRatio=testRunnerInstance.Setup();
-		Console.WriteLine($"Complex ratio: {complexRatio}, Desired ratio: {complexSolutionPercentage}");
+		testRunnerInstance.Setup();
+		//Console.WriteLine($"Complex ratio: {complexRatio}, Desired ratio: {complexSolutionPercentage}");
 	}
 
 	[TestMethod]

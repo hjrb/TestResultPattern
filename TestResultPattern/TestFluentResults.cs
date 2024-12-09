@@ -31,7 +31,7 @@ public class TestFluentResults
     public double ComplexSolutionPercentage;
 
     [GlobalSetup]
-    public double Setup()
+    public void Setup()
     {
         // produce random data using a fixed seed
         var random = new Random(42);
@@ -54,7 +54,7 @@ public class TestFluentResults
                 )) continue;  
                 discriminent = QuadraticEquation.Discriminent(a,b,c);
 
-                // is complex
+                // is it complex?
                 if (discriminent<0) {
                     // need more complex solutions?
                     if (complexCount<excpectedComplexCount) {
@@ -71,7 +71,7 @@ public class TestFluentResults
             } while (true);
             data[i] = (a, b, c);
         }
-        return ((double)complexCount)/N;
+        //return complexCount/N;
     }
 
     public int failCounterResult = 0;
