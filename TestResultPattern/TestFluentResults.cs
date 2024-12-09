@@ -45,7 +45,7 @@ public class TestFluentResults
     /// <param name="x1">the first real solution, only valid if the return value is true</param>
     /// <param name="x2">the second real solution, only valid if the return value is true</param>
     /// <returns>true if a real solution exists else false</returns>
-    public static bool QuadraticEquationUsingBoolAndOut(double a, double b, double c, ref double x1, ref double x2) 
+    public static bool QuadraticEquationUsingBoolAndOut(double a, double b, double c, out double x1, out double x2) 
         => ComputeX1X2(a, b, c, out x1, out x2);
 
     /// <summary>
@@ -84,29 +84,30 @@ public class TestFluentResults
     {
         var x = Complex.Sqrt((b * b) - (4 * a * c));        
         var a2 = 2 * a;
-        var x1 = (-b + x) / a2;
-        var x2 = (-b - x) / a2;
-        return (x1,x2);
+        return ((-b + x) / a2, (-b - x) / a2);
     }
 
+
+    /// <summary>
+    /// depending on the value of the discriminant return the real or complex solutions
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="c"></param>
+    /// <returns></returns>
     public static OneOf<(double, double), (Complex, Complex)> QuadraticEquationUsingOneOf(double a, double b, double c)
     {
+        var a2 = 2 * a;
         var d = (b * b) - (4 * a * c);
         if (d < 0)
         {
             var x = Complex.Sqrt(d);
-            var a2 = 2 * a;
-            var x1 = (-b + x) / a2;
-            var x2 = (-b - x) / a2;
-            return (x1, x2);
+            return ((-b + x) / a2, (-b - x) / a2);
         }
         else
         {
             var x = Math.Sqrt(d);
-            var a2 = 2 * a;
-            var x1 = (-b + x) / a2;
-            var x2 = (-b - x) / a2;
-            return (x1, x2);
+            return ((-b + x) / a2, (-b - x) / a2);
         }
     }
 
@@ -170,8 +171,7 @@ public class TestFluentResults
         for (int i = 0; i < N; i++)
         {
             var input = data[i];
-            double x1=0.0, x2=0.0;
-            var result = QuadraticEquationUsingBoolAndOut(input.Item1, input.Item2, input.Item3,ref x1, ref x2);
+            var result = QuadraticEquationUsingBoolAndOut(input.Item1, input.Item2, input.Item3,out var x1, out var x2);
             if (!result)
             {
                 failCounterBoolAndOut++; // make sure the compiler does not optimize this away

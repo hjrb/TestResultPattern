@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/TestResultPattern/BenchmarkDotNet.Artifacts/TestResultPattern.TestFluentResults-20241208-185625.log
+/TestResultPattern/BenchmarkDotNet.Artifacts/TestResultPattern.TestFluentResults-20241208-200014.log
+/TestResultPattern/BenchmarkDotNet.Artifacts/TestResultPattern.TestFluentResults-20241208-200552.log
+/TestResultPattern/BenchmarkDotNet.Artifacts/TestResultPattern.TestFluentResults-20241209-042615.log
+/TestResultPattern/BenchmarkDotNet.Artifacts/TestResultPattern.TestFluentResults-20241209-043254.log
